@@ -1,0 +1,20 @@
+BootStrap: library
+From: ubuntu:20.04
+
+%post
+  . /etc/os-release 
+  echo "deb http://archive.ubuntu.com/ubuntu/ ${VERSION_CODENAME} main restricted universe multiverse 
+  deb-src http://archive.ubuntu.com/ubuntu/ ${VERSION_CODENAME} main restricted universe multiverse 
+  deb http://archive.ubuntu.com/ubuntu/ ${VERSION_CODENAME}-security main restricted universe multiverse 
+  deb http://archive.ubuntu.com/ubuntu/ ${VERSION_CODENAME}-updates main restricted universe multiverse 
+  deb http://archive.ubuntu.com/ubuntu/ ${VERSION_CODENAME}-proposed main restricted universe multiverse 
+  deb http://archive.ubuntu.com/ubuntu/ ${VERSION_CODENAME}-backports main restricted universe multiverse 
+  deb-src http://archive.ubuntu.com/ubuntu/ ${VERSION_CODENAME}-security main restricted universe multiverse 
+  deb-src http://archive.ubuntu.com/ubuntu/ ${VERSION_CODENAME}-updates main restricted universe multiverse 
+  deb-src http://archive.ubuntu.com/ubuntu/ ${VERSION_CODENAME}-proposed main restricted universe multiverse 
+  deb-src http://archive.ubuntu.com/ubuntu/ ${VERSION_CODENAME}-backports main restricted universe multiverse" >> /etc/apt/sources.list
+  apt-get update -yy
+  apt-get install --no-install-recommends -yy git cmake ccache python-dev libncurses5-dev swig libedit-dev libxml2-dev build-essential ninja-build clang wget libicu-dev ca-certificates zlib1g-dev autoconf automake qemu-user-static
+%labels
+  Author: Thomas Nyman
+  Version v1.0.0

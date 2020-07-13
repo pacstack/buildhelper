@@ -1,0 +1,49 @@
+release=pacstack-llvm-9.0.0-debug
+target=aarch64-linux-gnu
+steps="sysroot runtime gcc llvm tests"
+
+# Component data for sysroot
+sysroot_url=https://releases.linaro.org/components/toolchain/binaries/7.5-2019.12/aarch64-linux-gnu/
+sysroot_filespec=sysroot-glibc-linaro-2.25-2019.12-aarch64-linux-gnu.tar.xz
+sysroot_destdir=${workspace_sysroots}/${target}
+sysroot_sha256=6ac110843a7f96d12451a09907d17f18c7b279b5beb5493988da7532fd91ae86
+
+# Component data for runtime
+runtime_url=https://releases.linaro.org/components/toolchain/binaries/7.5-2019.12/aarch64-linux-gnu/
+runtime_filespec=runtime-gcc-linaro-7.5.0-2019.12-aarch64-linux-gnu.tar.xz
+runtime_destdir=${workspace_sysroots}/${target}
+runtime_sha256=c86047680e508fc6246acefc996d7836b765e866e6c8415e627bcc3c8374015d
+
+# Component data for GCC
+gcc_url=https://releases.linaro.org/components/toolchain/binaries/7.5-2019.12/aarch64-linux-gnu/
+gcc_filespec=gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu.tar.xz
+gcc_destdir=${workspace_toolchains}/gcc/${host}
+gcc_sha256=3b6465fb91564b54bbdf9578b4cc3aa198dd363f7a43820eab06ea2932c8e0bf
+
+# Component data for LLVM
+llvm_url=https://github.com/pacstack
+llvm_branch=master
+llvm_revision=de36ced4c10679a10eff5e2cea14c022c4764688
+llvm_filespec=pacstack-llvm.git
+llvm_cmakedir=llvm
+llvm_cmakeflags="\
+    -GNinja \
+    -DLLVM_TARGETS_TO_BUILD=AArch64 \
+    -DLLVM_DEFAULT_TARGET_TRIPLE=aarch64-unknown-linux-gnu \
+    -DLLVM_ENABLE_PROJECTS=clang;lld \
+    -DCMAKE_BUILD_TYPE=Debug \
+    -DCMAKE_INSTALL_PREFIX=${workspace_destdir_host}"
+
+# Component data for tests
+tests_url=https://github.com/pointer-authentication
+tests_filespec=pacstack-tests.git
+tests_branch=master
+tests_revision=54f36a4f8607e21c5fd006fdf29b2d8aa28d7181
+tests_makeflags="check TESTS_ENVIRONMENT=LD_LIBRARY_PATH=${workspace_sysroots}/${target}/lib;"
+tests_configure="--host=aarch64-unknown-linux-gnu \
+    CC=${workspace_destdir_host}/bin/clang \
+    CXX=${workspace_destdir_host}/bin/clang++ \
+    LDSHARED=${workspace_destdir_host}/bin/clang \
+    CFLAGS=\"--target=aarch64-linux-gnu --sysroot=${workspace_sysroots}/${target} --gcc-toolchain=${workspace_toolchains}/gcc/${host}\" \
+    CXXFLAGS=\"--target=aarch64-linux-gnu --sysroot=${workspace_sysroots}/${target} --gcc-toolchain=${workspace_toolchains}/gcc/${host}\" \
+    LDFLAGS=\"-Wl,--dynamic-linker=${workspace_sysroots}/${target}/lib/ld-linux-aarch64.so.1\"" 
