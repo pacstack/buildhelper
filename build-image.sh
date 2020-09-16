@@ -16,7 +16,10 @@
 #
 # Build of a Singularity container with the dependencies required to build LLVM.
 #
-# Usage: ./build-image.sh
+# Usage: ./build-image.sh [build options...]
+#
+#  Any options specified as arguments are passed to singularity build.
+#  Please see 'singularity build --help' for list of availalble options.
 #
 # Author: Thomas Nyman <thomas.nyman@aalto.fi>
 
@@ -26,6 +29,6 @@ readonly SCRIPTPATH=$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null; pwd -P )
 
 OUTDIR=${PWD}
 pushd ${SCRIPTPATH}
-singularity build --fakeroot "${OUTDIR}/llvm-toolchain-buildhost.sif" "${SCRIPTPATH}/defs/llvm-toolchain-buildhost.def"
-popd 
+singularity build "$@" "${OUTDIR}/llvm-toolchain-buildhost.sif" "${SCRIPTPATH}/defs/llvm-toolchain-buildhost.def"
+popd
 

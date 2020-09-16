@@ -20,18 +20,25 @@ The buildhelper scripts requires a Linux host with:
 Ubuntu users can follow the Singularity **Quick Start** guide at:
 [https://sylabs.io/guides/3.5/user-guide/quick_start.html](https://sylabs.io/guides/3.5/user-guide/quick_start.html)
 
-**Note:** buildhelper makes use of **Unprivileged user namespaces** to build its
-Singularity containers without requiring root privileges. This feature requires
-at minimum kernel version >=3.8, but >=3.18 is recommended.
-
 Once dependencies have been installed, clone the buildhelper repository and
 build the Singularity container for performing builds:
 
     $ git clone https://github.com/pointer-authentication/buildhelper
     $ cd ./buildhelper
-    $ ./build-image.sh
+    $ sudo ./build-image.sh
 
-This produces `llvm-toolchain-buildhost.sif` in the current working directory.
+**Note:** `build-image.sh` must be run with as root as Singularity requires root
+privileges when building containers from recipes. If your Singularity
+installation has the [fakeroot feature](https://sylabs.io/guides/3.5/user-guide/fakeroot.html) enabled, then `build-image.sh` can be run as a regular user.
+In this case pass the `--fakeroot` option to `build-image.sh`:
+
+    $ ./build-image.sh --fakeroot
+
+This feature requires at minimum kernel version >=3.8, but >=3.18 is recommended
+and that user and group mappings have been setup using `singularity config fakeroot`.
+Please see the [Singularity documentation for more information](singularity config fakeroot).
+
+The `build-image.sh` script produces `llvm-toolchain-buildhost.sif` in the current working directory.
 
 **Note:** the container build process requires ≈ 600MB of free space in the `/tmp` filesystem.
 
