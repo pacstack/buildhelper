@@ -43,11 +43,11 @@ Currently the following manifests are supported:
 - PACStack LLVM 9.0.1 cross compiler for Aarch64 ( _Release_ ): `x86_64.aarch64-linux-gnu-pacstack-llvm-9.0.1-release-manifest.txt`
 - PACStack LLVM 9.0.1 cross compiler for Aarch64 ( _Debug_ ):   `x86_64.aarch64-linux-gnu-pacstack-llvm-9.0.1-debug-manifest.txt`
 
-Most users will prefer _Release_ builds, as they are faster to compiler and have
+Most users will prefer _Release_ builds, as they are faster to compile and have
 better performance. To build PACStack LLVM 9.0.1 in _Release_ configuration use
 the following command:
 
-    $ ./build.sh manifest/x86_64.aarch64-linux-gnu-llvm-9.0.1-pacstack-release-manifest.txt
+    $ ./build.sh manifest/x86_64.aarch64-linux-gnu-pacstack-llvm-9.0.1-release-manifest.txt
 
 This will download all necessary dependencies, build LLVM and automatically run
 regression tests on binaries produced by the new compiler. Once the build has
