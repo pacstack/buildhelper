@@ -14,11 +14,19 @@ The build itself is performed in a Singularity container.
 ## Quick Setup Guide
 
 The buildhelper scripts requires a Linux host with:
+- Linux kernel with [`binfmt_misc`](https://www.kernel.org/doc/html/latest/admin-guide/binfmt-misc.html) support,
 - [Git](https://git-scm.com/) version 2.5 or above, and 
 - [Singularity](https://sylabs.io/singularity/) version 3.5 or above installed.
 
-Ubuntu users can follow the Singularity **Quick Start** guide at:
+Ubuntu and other Debian derivative users can install the `binfmt-support` and
+`git` packages via `apt`:
+
+    $ apt install binfmt-support git
+
+To install Singularity we recommend following the **Quick Start** guide at:  
 [https://sylabs.io/guides/3.5/user-guide/quick_start.html](https://sylabs.io/guides/3.5/user-guide/quick_start.html)
+
+## Building the Singularity buildhost container
 
 Once dependencies have been installed, clone the buildhelper repository and
 build the Singularity container for performing builds:
@@ -42,8 +50,27 @@ The `build-image.sh` script produces `llvm-toolchain-buildhost.sif` in the curre
 
 **Note:** the container build process requires ≈ 600MB of free space in the `/tmp` filesystem.
 
-After the buildhost container has been successfully built, LLVM builds are
-started by invoking `build.sh` and passing it a corresponding manifest file.
+### Registering `binfmt_misc` binary formats for AArch64
+
+To run 64-bit ARM binaries directly within the container the AArch64 binary
+formats must be registered with `binfmt_misc` by writing to the `/proc/sys/fs/binfmt_misc` filesystem.
+This is done using the `scripts/qemu-binfmt-conf.sh` script.
+As the `/proc/sys/fs/binfmt_misc` are common between host and inside of
+container, the register script must be run with root privileges on the host:
+
+    $ sudo scripts/qemu-binfmt-conf.sh   
+
+Ubuntu and other Debian derivative users can make the changes persist between
+reboots by specifying the `--systemd ALL` option to `qemu-binfmt-conf`:
+
+    $ sudo scripts/qemu-binfmt-conf.sh  --systemd ALL
+
+**Note:** This step is not necessary if the `qemu-user-static` package is
+already installed on the host. 
+
+### Building LLVM
+
+LLVM builds are started by invoking `build.sh` and passing it a corresponding manifest file.
 
 Currently the following manifests are supported:
 
