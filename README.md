@@ -81,7 +81,7 @@ Most users will prefer _Release_ builds, as they are faster to compile and have
 better performance. To build PACStack LLVM 9.0.1 in _Release_ configuration use
 the following command:
 
-    $ ./build.sh manifest/x86_64.aarch64-linux-gnu-pacstack-llvm-9.0.1-release-manifest.txt
+    $ ./build.sh manifests/x86_64.aarch64-linux-gnu-pacstack-llvm-9.0.1-release-manifest.txt
 
 This will download all necessary dependencies, build LLVM and automatically run
 regression tests on binaries produced by the new compiler. Once the build has
