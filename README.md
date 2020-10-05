@@ -86,7 +86,7 @@ the following command:
 This will download all necessary dependencies, build LLVM and automatically run
 regression tests on binaries produced by the new compiler. Once the build has
 completed successfully the PACStack toolchain can be found in
-`llvm-9.0.1-pacstack-release/destdir/aarch64-linux-gnu/`.
+`llvm-9.0.1-pacstack-release/builds/destdir/aarch64-linux-gnu/`.
 
 ## Detailed usage instructions
 
