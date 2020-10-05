@@ -26,7 +26,7 @@ Ubuntu and other Debian derivative users can install the `binfmt-support` and
 To install Singularity we recommend following the **Quick Start** guide at:  
 [https://sylabs.io/guides/3.5/user-guide/quick_start.html](https://sylabs.io/guides/3.5/user-guide/quick_start.html)
 
-## Building the Singularity buildhost container
+### Building the Singularity buildhost container
 
 Once dependencies have been installed, clone the buildhelper repository and
 build the Singularity container for performing builds:
